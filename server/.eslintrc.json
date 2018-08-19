@@ -6,7 +6,9 @@
     "rules": {
         "indent": [
             "error",
-             4
-        ]        
+             2,
+             { "SwitchCase": 1 }
+        ],
+        "space-before-function-paren": ["error", "never"]        
     }
 }

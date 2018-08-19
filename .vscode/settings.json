@@ -1,0 +1,5 @@
+{
+    "javascript.format.insertSpaceBeforeFunctionParenthesis": true,
+    "files.insertFinalNewline": true,
+    "editor.trimAutoWhitespace": false
+}
