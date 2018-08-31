@@ -13,5 +13,8 @@ module.exports = {
         ssl: process.env.SSL || true
       }
     }
+  },
+  authentication: {
+    jwtSecret: process.env.JWT_SECRET || 'secret'
   }
 }
