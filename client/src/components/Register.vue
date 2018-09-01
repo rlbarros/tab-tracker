@@ -1,10 +1,7 @@
 <template>
   <v-layout align-center justify-center column>
     <v-flex xs6>
-      <div class="white elevation-2">
-        <v-toolbar flat dense class="cyan" dark>
-          <v-toolbar-title>Register</v-toolbar-title>
-        </v-toolbar>
+      <panel>
         <div class="pl-4 pr-4 pt-2 pb-2">
           <form name="tab-tracker-form" autocomplete="off">
             <v-text-field type="email" name="email" v-model="email" label="email" outline/>
@@ -18,13 +15,14 @@
             </v-btn>
           </form>
         </div>
-      </div>
+      </panel>
     </v-flex>
   </v-layout>
 </template>
 
 <script>
 import AuthenticationService from '@/services/AuthenticationService'
+import Panel from '@/components/Panel'
 export default {
   data() {
     return {
@@ -46,6 +44,9 @@ export default {
         this.error = error.response.data.error
       }
     }
+  },
+  components: {
+    Panel
   }
 }
 </script>
