@@ -18,7 +18,7 @@
                 {{song.genre}}
               </div>
 
-              <v-btn dark class="cyan" :to="'songs/'+(''+song.id)">
+              <v-btn dark class="cyan" :to="`/songs/${song.id}`">
                 View Song
               </v-btn>
             </v-flex>

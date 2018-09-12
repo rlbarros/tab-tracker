@@ -11,6 +11,10 @@
         <div class="song-genre">
           {{song.genre}}
         </div>
+
+         <v-btn dark class="cyan" :to="`/songs/${song.id}/edit`">
+          Edit Song
+         </v-btn>
       </v-flex>
       <v-flex xs6>
         <img class="album-image" :src="song.albumImage" />
