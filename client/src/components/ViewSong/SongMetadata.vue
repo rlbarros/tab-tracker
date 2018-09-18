@@ -12,9 +12,17 @@
           {{song.genre}}
         </div>
 
-         <v-btn dark class="cyan" :to="`/songs/${song.id}/edit`">
+        <v-btn dark class="cyan" :to="`/songs/${song.id}/edit`">
           Edit Song
-         </v-btn>
+        </v-btn>
+
+        <v-btn dark class="cyan" @click="Bookmark" v-if="isUserLoggedIn && !bookmark">
+          Set As Bookmark
+        </v-btn>
+
+        <v-btn dark class="cyan" @click="UnBookmark" v-if="isUserLoggedIn && !!bookmark">
+          Unset As Bookmark
+        </v-btn>
       </v-flex>
       <v-flex xs6>
         <img class="album-image" :src="song.albumImage" />
@@ -26,11 +34,59 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
+import { mapState } from 'vuex'
+import BookmarksService from '@/services/BookmarksService'
+
 export default {
   props: ['song'],
-  components: {
-    Panel
+  data() {
+    return {
+      bookmark: null
+    }
+  },
+  computed: {
+    ...mapState(['isUserLoggedIn'])
+  },
+  watch: {
+    async song() {
+      if (!this.isUserLoggedIn) {
+        return
+      }
+      try {
+        const SongId = this.song.id
+        const UserId = this.$store.state.user.id
+
+        console.log('SongID: ', SongId)
+        console.log('UserID: ', UserId)
+
+        this.bookmark = (await BookmarksService.index({
+          songId: SongId,
+          userId: UserId
+        })).data
+      } catch (err) {
+        console.log(err)
+      }
+    }
+  },
+  methods: {
+    async Bookmark() {
+      try {
+        this.bookmark = (await BookmarksService.post({
+          songId: this.song.id,
+          userId: this.$store.state.user.id
+        })).data
+      } catch (err) {
+        console.log(err)
+      }
+    },
+    async UnBookmark() {
+      try {
+        await BookmarksService.delete(this.bookmark.id)
+        this.bookmark = null
+      } catch (err) {
+        console.log(err)
+      }
+    }
   }
 }
 </script>

@@ -29,7 +29,6 @@
 </template>
 
 <script>
-import Panel from '@/components/Panel'
 import SongsService from '@/services/SongsService'
 
 export default {
@@ -54,9 +53,6 @@ export default {
   async mounted() {
     const songId = this.$store.state.route.params.songId
     this.song = (await SongsService.show(songId)).data
-  },
-  components: {
-    Panel
   },
   methods: {
     async save() {
