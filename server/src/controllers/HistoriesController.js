@@ -30,8 +30,6 @@ module.exports = {
           )
         )
 
-      console.log('HHH: ', histories)
-
       res.send(_.uniqBy(histories, history => history.id))
       // res.send(histories)
     } catch (err) {
