@@ -45,7 +45,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['isUserLoggedIn'])
+    ...mapState(['isUserLoggedIn', 'user'])
   },
   watch: {
     async song() {
@@ -54,15 +54,16 @@ export default {
       }
       try {
         const SongId = this.song.id
-        const UserId = this.$store.state.user.id
+        const UserId = this.user.id
 
-        console.log('SongID: ', SongId)
-        console.log('UserID: ', UserId)
-
-        this.bookmark = (await BookmarksService.index({
+        const bookmarks = (await BookmarksService.index({
           songId: SongId,
           userId: UserId
         })).data
+
+        if (bookmarks.length) {
+          this.bookmark = bookmarks[0]
+        }
       } catch (err) {
         console.log(err)
       }
@@ -72,8 +73,7 @@ export default {
     async Bookmark() {
       try {
         this.bookmark = (await BookmarksService.post({
-          songId: this.song.id,
-          userId: this.$store.state.user.id
+          songId: this.song.id
         })).data
       } catch (err) {
         console.log(err)
@@ -81,7 +81,7 @@ export default {
     },
     async UnBookmark() {
       try {
-        await BookmarksService.delete(this.bookmark.id)
+        await BookmarksService.delete(this.bookmark.bookmarkId)
         this.bookmark = null
       } catch (err) {
         console.log(err)
